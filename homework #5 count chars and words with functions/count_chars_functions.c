@@ -2,96 +2,97 @@
 #include <stdlib.h>
 #include <malloc.h>
 
-const int NUMBER_OF_LETTERS_IN_ALPHABET = 26;
-const int SIZE_OF_ENTERED_STRING = 1000000;
-char alphabetArray[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-char enteredStringArray[1000000];
-char onlyLettersStringArray[1000000];
-int numberOfLettersArray[26];
-char temp1;
-int temp;
-int i = 0;
-int j = 0;
-int x = 0;
-
-int* createNumberOfLettersArray()
-{
+int* createNumberOfLettersArray(int NUMBER_OF_LETTERS_IN_ALPHABET){
+    int i = 0;
+    int* array = (int*)malloc(NUMBER_OF_LETTERS_IN_ALPHABET * sizeof(int));
 	for (i = 0; i < NUMBER_OF_LETTERS_IN_ALPHABET; i++){
-		numberOfLettersArray[i] = 0;
+		array[i] = 0;
 	}
-	return numberOfLettersArray;
+	return array;
 }
 
-char* getInputString()
-{
+char* getInputString(int SIZE_OF_ENTERED_STRING){
+    int i = 0;
+    char* enteredString = (char*) malloc(SIZE_OF_ENTERED_STRING * sizeof(char));
     printf("Enter some string: \n");
-    scanf("%[^\r\n]", enteredStringArray);
-    strlwr(enteredStringArray);
-    return enteredStringArray;
+    scanf("%[^\r\n]", enteredString);
+    strlwr(enteredString);
+    return enteredString;
 }
 
-char* getOnlyLettersStringArray()
-{
-    for (i = 0; i < strlen(enteredStringArray); i++){
+char* getOnlyLettersStringArray(int NUMBER_OF_LETTERS_IN_ALPHABET, char* alphabetArray, char* inputedStringArray, int SIZE_OF_ENTERED_STRING){
+    int i = 0;
+    int j = 0;
+    int x = 0;
+    char* onlyCharsStringArray = (char*) malloc(SIZE_OF_ENTERED_STRING * sizeof(char));
+    for (i = 0; i < strlen(inputedStringArray); i++){
         for(j = 0; j < NUMBER_OF_LETTERS_IN_ALPHABET; j++){
-            if(enteredStringArray[i] == alphabetArray[j]){
-                onlyLettersStringArray[x] = enteredStringArray[i];
+            if(inputedStringArray[i] == alphabetArray[j]){
+                onlyCharsStringArray[x] = inputedStringArray[i];
                 x++;
             }
         }
     }
-    return onlyLettersStringArray;
+    return onlyCharsStringArray;
 }
 
-void countChars()
-{
-    for(i = 0; i < strlen(onlyLettersStringArray); i++){
+void countChars(char* lettersStringArray, int NUMBER_OF_LETTERS_IN_ALPHABET, char* alphabetArray, int* countOfLettersArray){
+    int i = 0;
+    int j = 0;
+    for(i = 0; i < strlen(lettersStringArray); i++){
         for (j = 0; j < NUMBER_OF_LETTERS_IN_ALPHABET; j++){
-            if(onlyLettersStringArray[i] == alphabetArray[j]){
-                numberOfLettersArray[j]++;
+            if(lettersStringArray[i] == alphabetArray[j]){
+                countOfLettersArray[j]++;
                 break;
             }
         }
     }
 }
 
-void sort()
-{
+void sort(int NUMBER_OF_LETTERS_IN_ALPHABET, int* countOfLettersArray, char* alphabetArray){
+    int i = 0;
+    int j = 0;
+    int temp = 0;
+    int temp1 = 0;
     for (i = 0; i < NUMBER_OF_LETTERS_IN_ALPHABET - 1; i++){
         for(j = 0; j < NUMBER_OF_LETTERS_IN_ALPHABET - 1 - i; j++){
-                if(numberOfLettersArray[j] < numberOfLettersArray[j+1]){
+                if(countOfLettersArray[j] < countOfLettersArray[j+1]){
                     temp1 = alphabetArray[j];
                     alphabetArray[j] = alphabetArray[j+1];
                     alphabetArray[j+1] = temp1;
 
-                    temp = numberOfLettersArray[j];
-                    numberOfLettersArray[j] = numberOfLettersArray[j+1];
-                    numberOfLettersArray[j+1] = temp;
+                    temp = countOfLettersArray[j];
+                    countOfLettersArray[j] = countOfLettersArray[j+1];
+                    countOfLettersArray[j+1] = temp;
                 }
         }
     }
 }
 
-void showResult()
-{
+void showResult(int NUMBER_OF_LETTERS_IN_ALPHABET, int* countOfLettersArray, char* alphabetArray){
+    int i = 0;
     for(i = 0; i < NUMBER_OF_LETTERS_IN_ALPHABET; i++){
-        if(numberOfLettersArray[i] == 0){
+        if(countOfLettersArray[i] == 0){
             continue;
         }
-        printf("%c - %d\n", alphabetArray[i], numberOfLettersArray[i]);
+        printf("%c - %d\n", alphabetArray[i], countOfLettersArray[i]);
     }
 }
 
-int main()
-{
+int main(){
+    const int NUMBER_OF_LETTERS_IN_ALPHABET = 26;
+    const int SIZE_OF_ENTERED_STRING = 1000000;
+    char alphabetArray[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    char enteredStringArray[1000000];
+
     char* enteredString = (char*)malloc(SIZE_OF_ENTERED_STRING * sizeof(char));
 
-    int* numberOfLettersArray = createNumberOfLettersArray();
-    char* enteredStringArray = getInputString();
-    char* onlyLettersStringArray = getOnlyLettersStringArray();
-    countChars();
-    sort();
-    showResult();
+    int* countOfLettersArray = createNumberOfLettersArray(NUMBER_OF_LETTERS_IN_ALPHABET);
+    char* inputedStringArray = getInputString(SIZE_OF_ENTERED_STRING);
+    char* lettersStringArray = getOnlyLettersStringArray(NUMBER_OF_LETTERS_IN_ALPHABET, alphabetArray, inputedStringArray, SIZE_OF_ENTERED_STRING);
+    countChars(lettersStringArray, NUMBER_OF_LETTERS_IN_ALPHABET, alphabetArray, countOfLettersArray);
+    sort(NUMBER_OF_LETTERS_IN_ALPHABET, countOfLettersArray, alphabetArray);
+    showResult(NUMBER_OF_LETTERS_IN_ALPHABET, countOfLettersArray, alphabetArray);
 
     free(enteredString);
 }
