@@ -1,6 +1,5 @@
 
 #include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -10,8 +9,8 @@ class Animal{
 private:
 	int animalId;
 	int age;
-	string kind;
-	string name;
+	char* kind;
+	char* name;
 	int pawsNum;
 	int helth;
 	bool isShow;
@@ -25,7 +24,18 @@ public:
         helth = 0;
         isShow = false;
     }
+	Animal(int AnimalId, int Age, char* Kind, char* Name, int PawsNum, int Helth, bool IsShow){
+		animalId = AnimalId;
+		age = Age;
+		kind = Kind;
+		name = Name;
+		pawsNum = PawsNum;
+		helth = Helth;
+		isShow = IsShow;
+	}
+	~Animal(){
 
+	}
 	unsigned int getAnimalId() const{
 	    return animalId;
     }
@@ -36,15 +46,15 @@ public:
     }
 	void setAge(const unsigned int &ageOfAnimal);
 
-	string getKind(){
+	char* getKind(){
 	    return kind;
     }
-	void setKind(string &kindOfAnimal);
+	void setKind(char* &kindOfAnimal);
 
-	string getName(){
+	char* getName(){
 	    return name;
     }
-	void setName(string nameOfAnimal);
+	void setName(char* nameOfAnimal);
 
 	unsigned int getPawsNum() const{
         return pawsNum;
@@ -66,49 +76,21 @@ class Zoo {
 public:
 	int animalCount;
 	Animal* animals[SIZE];
-    //animals, that are in zoo
-	void createZoo(){
-		// add tiger
-		Animal* curAnimal1 = new Animal();
-		curAnimal1->setAnimalId(1);
-		curAnimal1->setAge(10);
-		string curKind = "tiger";
-		curAnimal1->setKind(curKind);
-		string curName = "Oskar";
-		curAnimal1->setName(curName);
-		curAnimal1->setPawsNum(4);
-		curAnimal1->setHelth(95);
-		curAnimal1->setIsShow(true);
-		animals[0] = curAnimal1;
 
-		// add elephant
-		Animal* curAnimal2 = new Animal();
-		curAnimal2->setAnimalId(2);
-		curAnimal2->setAge(15);
-		curKind = "elephant";
-		curAnimal2->setKind(curKind);
-		curName = "Tom";
-		curAnimal2->setName(curName);
-		curAnimal2->setPawsNum(4);
-		curAnimal2->setHelth(100);
-		curAnimal2->setIsShow(true);
-		animals[1] = curAnimal2;
+	Zoo(){
 
-		// add giraffe
-		Animal* curAnimal3 = new Animal();
-		curAnimal3->setAnimalId(3);
-		curAnimal3->setAge(7);
-		curKind = "giraffe";
-		curAnimal3->setKind(curKind);
-		curName = "Marti";
-		curAnimal3->setName(curName);
-		curAnimal3->setPawsNum(4);
-		curAnimal3->setHelth(92);
-		curAnimal3->setIsShow(false);
-		animals[2] = curAnimal3;
-		animalCount = 3;
 	}
+
+	void createZoo();
 };
+
+void Zoo::createZoo()
+{
+	animals[0] = new Animal(1, 7, "giraffe", "Marti", 4, 92, false);
+	animals[1] = new Animal(2, 5, "tiger", "Oscar", 4, 78, false);
+	animals[2] = new Animal(3, 20, "elephant", "Tom", 4, 82, true);
+	animalCount = 3;
+}
 
 class ZooManager {
 public:
@@ -117,8 +99,8 @@ public:
 	void addNewAnimal(){
 		Animal* newAnimal = new Animal();
 		int curAge;
-		string curKind = new char[20];
-		string curName = new char[20];
+		char* curKind = new char[20];
+		char* curName = new char[20];
 		int curPawsNum;
 		int curHelth;
 		bool curIsShow;
@@ -154,6 +136,7 @@ public:
 		}
 
 		zoo->animalCount--;
+
 	}
 	void showPopulation(){
 		if (zoo->animalCount > 0){
@@ -168,8 +151,8 @@ public:
 	void showAboutInfo(int anId){
 		int curId = zoo->animals[anId - 1]->getAnimalId();
 		int curAge = zoo->animals[anId - 1]->getAge();
-		string curKind = zoo->animals[anId - 1]->getKind();
-		string curName = zoo->animals[anId - 1]->getName();
+		char* curKind = zoo->animals[anId - 1]->getKind();
+		char* curName = zoo->animals[anId - 1]->getName();
         int curPawsNum = zoo->animals[anId - 1]->getPawsNum();
         int curHelth = zoo->animals[anId - 1]->getHelth();
         bool curIsShow = zoo->animals[anId - 1]->getIsShow();
@@ -187,8 +170,8 @@ public:
 	    Animal* editAnimal = new Animal();
 
 		int curAge;
-		string curKind = new char[20];
-		string curName = new char[20];
+		char* curKind = new char[20];
+		char* curName = new char[20];
 		int curPawsNum;
 		int curHelth;
 		bool curIsShow;
@@ -219,8 +202,8 @@ public:
 	void showAboutEditedInfo(int anId2){
 		int curId = zoo->animals[anId2 - 1]->getAnimalId();
 		int curAge = zoo->animals[anId2 - 1]->getAge();
-		string curKind = zoo->animals[anId2 - 1]->getKind();
-		string curName = zoo->animals[anId2 - 1]->getName();
+		char* curKind = zoo->animals[anId2 - 1]->getKind();
+		char* curName = zoo->animals[anId2 - 1]->getName();
         int curPawsNum = zoo->animals[anId2 - 1]->getPawsNum();
         int curHelth = zoo->animals[anId2 - 1]->getHelth();
         bool curIsShow = zoo->animals[anId2 - 1]->getIsShow();
@@ -244,11 +227,11 @@ void Animal::setAge(const unsigned int &ageOfAnimal){
 	age = ageOfAnimal;
 }
 
-void Animal::setKind(string &kindOfAnimal){
+void Animal::setKind(char* &kindOfAnimal){
 	kind = kindOfAnimal;
 }
 
-void Animal::setName(string nameOfAnimal){
+void Animal::setName(char* nameOfAnimal){
 	name = nameOfAnimal;
 }
 
@@ -274,13 +257,7 @@ void ZooManager::showUserMenu(){
 	cout << "4. Add new animal\n";
 	cout << "5. Delete animal\n";
 	cout << "6. Exit\n";
-}
 
-int main(){
-	ZooManager* zm = new ZooManager();
-	// animals, that are in zoo
-	zm->zoo->createZoo();
-	zm->showUserMenu();
 	int select;
 
 	do{
@@ -291,48 +268,49 @@ int main(){
 		} while (select < 1 || select > 6);
 
 		switch (select){
-		case 1: zm->showPopulation();
+		case 1: showPopulation();
 			break;
 
 		case 2: {
-			int anId;
-			cout << "Enter number of animal: ";
-			cin >> anId;
-			if (anId >= 1 && anId <= zm->zoo->animalCount)
-				zm->showAboutInfo(anId);
-			else
-				cout << "Error! Animal with number: " << anId << " is not in zoo";
+					int anId;
+					cout << "Enter number of animal: ";
+					cin >> anId;
+					if (anId >= 1 && anId <= zoo->animalCount)
+						showAboutInfo(anId);
+					else
+						cout << "Error! Animal with number: " << anId << " is not in zoo";
 
-			break;
+					break;
 		}
 
 		case 3: {
-		    int anId2;
-		    cout << "Enter number of animal: ";
-			cin >> anId2;
-			if (anId2 >= 1 && anId2 <= zm->zoo->animalCount)
-				zm->editAnimalInfo(anId2);
-		    else
-				cout << "Error! Animal with number: " << anId2 << " is not in zoo";
-            zm->showAboutEditedInfo(anId2);
+					int anId2;
+					cout << "Enter number of animal: ";
+					cin >> anId2;
+					if (anId2 >= 1 && anId2 <= zoo->animalCount)
+						editAnimalInfo(anId2);
+					else
+						cout << "Error! Animal with number: " << anId2 << " is not in zoo";
 
-			break;
+					showAboutEditedInfo(anId2);
+
+					break;
 		}
 
 		case 4: {
-			zm->addNewAnimal();
-			cout << "The animal added: " << endl;
-			zm->showAboutInfo(zm->zoo->animalCount);
-			break;
+					addNewAnimal();
+					cout << "The animal added: " << endl;
+					showAboutInfo(zoo->animalCount);
+					break;
 		}
 
 		case 5: {
 					int anId2;
 					cout << "Enter number of animal: ";
 					cin >> anId2;
-					if (anId2 >= 1 && anId2 <= zm->zoo->animalCount){
-						zm->deleteAnimal(anId2);
-						zm->showPopulation();
+					if (anId2 >= 1 && anId2 <= zoo->animalCount){
+						deleteAnimal(anId2);
+						showPopulation();
 					}
 					else
 						cout << "Error! Animal with number: " << anId2 << " is not in zoo" << endl;
@@ -346,6 +324,13 @@ int main(){
 		}
 
 	} while (select != 6);
+}
+
+int main(){
+	ZooManager* zm = new ZooManager();
+
+	zm->zoo->createZoo();
+	zm->showUserMenu();
 
 	return 0;
 }
