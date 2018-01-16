@@ -1,0 +1,43 @@
+<!DOCTYPE html> 
+<html>
+<body>
+<script>
+	var str = prompt("Enter some string:");
+	console.log(str);
+	
+	var encodingType = prompt("If you want encrypt string, enter 1\nIf you want to decrypt string, enter 2 \n");
+	console.log(encodingType);
+	
+	var key = prompt("Enter key to encrypt or decrypt your string (one decimal number):");
+	console.log(key);
+	
+	key = eval(key);
+	
+		var output = '';
+
+		for (var i = 0; i < str.length; i++) {
+			var c = str[i];
+			var code = str.charCodeAt(i);
+
+			if (encodingType == 1){
+
+				if ((code >= 97) && (code <= 122)){
+					c = String.fromCharCode(((code - 97 + key) % 26) + 97);
+				}
+			}
+			
+			if (encodingType == 2){
+				
+				if ((code >= 97) && (code <= 122)){
+					c = String.fromCharCode(((code - 97 + 26 - key) % 26) + 97);
+				}
+			}
+
+			output += c;
+		}
+
+		console.log(output);
+
+</script>
+</body>
+</html>
