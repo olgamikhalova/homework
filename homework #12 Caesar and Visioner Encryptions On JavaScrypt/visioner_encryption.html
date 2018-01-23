@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html>
+	<body>
+		<script>
+			var str = prompt("Enter some string:");
+			console.log("Entered string: " + str);
+			
+			var encodingType = prompt("If you want encrypt string, enter 1\nIf you want to decrypt string, enter 2 \n");
+			console.log("Type of code: " + encodingType);
+			
+			var key = prompt("Enter key to encrypt or decrypt your string");
+			console.log("Key: " + key);
+			
+			var output = [];
+			
+			if (encodingType == 1){
+				function encryption (codedChar) {
+					for (var i = 0, j = 0; i < str.length; i++, j++) {
+
+						if(j >= key.length){
+							j = 0;
+						}
+													
+						var codedChar = ((str.toLowerCase().charCodeAt(i) - 97) + (key.toLowerCase().charCodeAt(j) - 97)) % 26 + 97;
+						output += String.fromCharCode(codedChar);
+					}
+					console.log("Encrypted string is: " + output);
+					
+					return output;
+				};
+			
+				encryption();
+			}
+			
+			if (encodingType == 2){
+				function dencryption (codedChar) {
+					for (var i = 0, j = 0; i < str.length; i++, j++) {
+
+						if(j >= key.length){
+							j = 0;
+						}
+													
+						var codedChar = (((str.toLowerCase().charCodeAt(i) - 97) - (key.toLowerCase().charCodeAt(j) - 97)) + 26) % 26 + 97;
+						output += String.fromCharCode(codedChar);
+					}
+					console.log("Decrypted string is: " + output);
+					
+					return output;
+				};
+			
+				dencryption();
+			}
+		</script>
+	</body>
+</html>
